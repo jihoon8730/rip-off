@@ -1,12 +1,16 @@
 import { View, StyleSheet } from "react-native";
 import { Searchbar } from "react-native-paper";
 import { useForm, Controller } from "react-hook-form";
+import { useAppTheme } from "@/app/_layout";
 
 type FormData = {
   search: string;
 };
 
 export default function HomeScreen() {
+  const {
+    colors: { backgroundColor },
+  } = useAppTheme();
   const { control, handleSubmit } = useForm<FormData>({
     defaultValues: {
       search: "",
@@ -19,7 +23,14 @@ export default function HomeScreen() {
   };
 
   return (
-    <View style={styles.innerContainer}>
+    <View
+      style={[
+        styles.innerContainer,
+        {
+          backgroundColor: backgroundColor,
+        },
+      ]}
+    >
       <Controller
         control={control}
         name="search"
@@ -44,7 +55,6 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   innerContainer: {
     flex: 1,
-    backgroundColor: "#242E3C",
   },
   searchBar: {
     backgroundColor: "#30394A",
