@@ -1,7 +1,9 @@
-import { View, StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Searchbar } from "react-native-paper";
-import { useForm, Controller } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { useAppTheme } from "@/app/_layout";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 type FormData = {
   search: string;
@@ -11,6 +13,16 @@ export default function HomeScreen() {
   const {
     colors: { backgroundColor },
   } = useAppTheme();
+
+  const { data } = useQuery({
+    queryKey: ["test-data"],
+    queryFn: async () => {
+      return await axios.get("");
+    },
+  });
+
+  console.log("data", data);
+
   const { control, handleSubmit } = useForm<FormData>({
     defaultValues: {
       search: "",

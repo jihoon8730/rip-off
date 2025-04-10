@@ -831,6 +831,13 @@
     deepmerge "^3.2.0"
     hoist-non-react-statics "^3.3.0"
 
+"@dev-plugins/react-query@~0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@dev-plugins/react-query/-/react-query-0.2.0.tgz#623f53f082c550dca0601879dbe1423136f25bb2"
+  integrity sha512-tbGfXiR4/Pd9V6oJGDqx/YFtNpHJ0jrfLhDnY6k9yZu2e5niuIStDVKDimZ3m+HYXQDw62Ydk5NFa6fcRq4soA==
+  dependencies:
+    flatted "^3.3.1"
+
 "@egjs/hammerjs@^2.0.17":
   version "2.0.17"
   resolved "https://registry.yarnpkg.com/@egjs/hammerjs/-/hammerjs-2.0.17.tgz#5dc02af75a6a06e4c2db0202cae38c9263895124"
@@ -1936,6 +1943,18 @@
   dependencies:
     "@sinonjs/commons" "^3.0.0"
 
+"@tanstack/query-core@5.72.2":
+  version "5.72.2"
+  resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-5.72.2.tgz#448dbdc68c6c836d7b202eafdd1b89fb9379f3d4"
+  integrity sha512-fxl9/0yk3mD/FwTmVEf1/H6N5B975H0luT+icKyX566w6uJG0x6o+Yl+I38wJRCaogiMkstByt+seXfDbWDAcA==
+
+"@tanstack/react-query@^5.72.2":
+  version "5.72.2"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-5.72.2.tgz#677a2b239bfee2dbeb75c3f4dc541a8fffa33d6d"
+  integrity sha512-SVNHzyBUYiis+XiCl+8yiPZmMYei2AKYY94wM/zpvB5l1jxqOo82FQTziSJ4pBi96jtYqvYrTMxWynmbQh3XKw==
+  dependencies:
+    "@tanstack/query-core" "5.72.2"
+
 "@tootallnate/once@2":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-2.0.0.tgz#f544a148d3ab35801c1f633a7441fd87c2e484bf"
@@ -2608,6 +2627,15 @@ available-typed-arrays@^1.0.7:
   integrity sha512-wvUjBtSGN7+7SjNpq/9M2Tg350UZD3q62IFZLbRAR1bSMlCo1ZaeW+BJ+D090e4hIIZLBcTDWe4Mh4jvUDajzQ==
   dependencies:
     possible-typed-array-names "^1.0.0"
+
+axios@^1.8.4:
+  version "1.8.4"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-1.8.4.tgz#78990bb4bc63d2cae072952d374835950a82f447"
+  integrity sha512-eBSYY4Y68NNlHbHBMdeDmKNtDgXWhQsJcGqzO3iLUM0GraQFSS9cVgPX5I9b3lbdFKyYoAEGAZF1DwhTaljNAw==
+  dependencies:
+    follow-redirects "^1.15.6"
+    form-data "^4.0.0"
+    proxy-from-env "^1.1.0"
 
 babel-core@^7.0.0-bridge.0:
   version "7.0.0-bridge.0"
@@ -4365,7 +4393,7 @@ flat-cache@^3.0.4:
     keyv "^4.5.3"
     rimraf "^3.0.2"
 
-flatted@^3.2.9:
+flatted@^3.2.9, flatted@^3.3.1:
   version "3.3.3"
   resolved "https://registry.yarnpkg.com/flatted/-/flatted-3.3.3.tgz#67c8fad95454a7c7abebf74bb78ee74a44023358"
   integrity sha512-GX+ysw4PBCz0PzosHDepZGANEuFCMLrnRTiEy9McGjmkCQYwRq4A/X786G/fjM/+OjsWSU1ZrY5qyARZmO/uwg==
@@ -4379,6 +4407,11 @@ flow-parser@0.*:
   version "0.266.1"
   resolved "https://registry.yarnpkg.com/flow-parser/-/flow-parser-0.266.1.tgz#c90444e12475d388bc2cf80d45c37c6076a67dcd"
   integrity sha512-dON6h+yO7FGa/FO5NQCZuZHN0o3I23Ev6VYOJf9d8LpdrArHPt39wE++LLmueNV/hNY5hgWGIIrgnrDkRcXkPg==
+
+follow-redirects@^1.15.6:
+  version "1.15.9"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.15.9.tgz#a604fa10e443bf98ca94228d9eebcc2e8a2c8ee1"
+  integrity sha512-gew4GsXizNgdoRyqmyfMHyAmXsZDk6mHkSxZFCzW9gwlbtOW44CDtYavM+y+72qD/Vq2l550kMF52DT8fOLJqQ==
 
 fontfaceobserver@^2.1.0:
   version "2.3.0"
@@ -7011,6 +7044,11 @@ prop-types@^15.7.2, prop-types@^15.8.1:
     loose-envify "^1.4.0"
     object-assign "^4.1.1"
     react-is "^16.13.1"
+
+proxy-from-env@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/proxy-from-env/-/proxy-from-env-1.1.0.tgz#e102f16ca355424865755d2c9e8ea4f24d58c3e2"
+  integrity sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==
 
 psl@^1.1.33:
   version "1.15.0"
