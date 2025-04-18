@@ -17,7 +17,11 @@ export default function TabLayout() {
           tabBarInactiveTintColor: bottomInactiveColor,
           tabBarStyle: {
             backgroundColor: "#242E3C",
+            borderRadius: 30,
+            height: 60,
             borderTopWidth: 0,
+            elevation: 5, // 안드로이드 그림자
+            shadowOpacity: 0.5, // iOS 그림자
           },
         }}
       >
