@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
-import { Searchbar } from "react-native-paper";
+import { ActivityIndicator, Searchbar } from "react-native-paper";
 import { Controller, useForm } from "react-hook-form";
 import { useAppTheme } from "@/app/_layout";
 import { useQuery } from "@tanstack/react-query";
@@ -20,7 +20,7 @@ type FormData = {
 
 export default function HomeScreen() {
   const {
-    colors: { backgroundColor },
+    colors: { backgroundColor, inputColor },
   } = useAppTheme();
 
   const [search, setSearch] = useState("");
@@ -28,22 +28,21 @@ export default function HomeScreen() {
 
   // 축제 목록 조회
   const { data, isLoading } = useQuery({
-    queryKey: ["festival-list"],
+    queryKey: ["festival-list", areaCode, search],
     queryFn: async (): Promise<FestivalItem[]> => {
       const response = await axios.get(
         "https://apis.data.go.kr/B551011/KorService1/searchFestival1",
         {
           params: {
-            serviceKey: SERVICE_KEY_DECODING, // 인증키
+            serviceKey: SERVICE_KEY_DECODING,
             MobileApp: "ripoff",
             MobileOS: "ETC",
-            // pageNo: 1, // 페이지 번호
-            numOfRows: 30, // 한 페이지 결과 수
-            eventStartDate: "20240101", // 조회 시작일 (YYYYMMDD)
-            areaCode: "", // 지역 코드
-            listYN: "Y", // 목록 여부
-            arrange: "R", // 정렬 기준
-            _type: "json", // 응답 포맷
+            numOfRows: 50,
+            eventStartDate: "20240101",
+            areaCode: areaCode || "", // 선택된 지역코드
+            listYN: "Y",
+            arrange: "R",
+            _type: "json",
           },
         },
       );
@@ -71,8 +70,6 @@ export default function HomeScreen() {
       return response.data.response.body.items.item;
     },
   });
-
-  console.log("areaData", areaData);
 
   const { control, handleSubmit } = useForm<FormData>({
     defaultValues: {
@@ -106,7 +103,7 @@ export default function HomeScreen() {
             value={value}
             onSubmitEditing={handleSubmit(onSubmit)}
             iconColor="#909CA8"
-            style={styles.searchBar}
+            style={[styles.searchBar, { backgroundColor: inputColor }]}
             inputStyle={styles.inputStyle}
             elevation={1}
           />
@@ -115,8 +112,21 @@ export default function HomeScreen() {
       <View style={styles.FlexRowBox}>
         <Text style={styles.h1Text}>축제</Text>
       </View>
-      <AreaTags />
-      <HomeCarousel data={data || []} isLoading={isLoading} />
+      <AreaTags
+        areaData={areaData || []}
+        onSelect={(code) => {
+          setAreaCode(code || "");
+        }}
+      />
+
+      {isLoading ? (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color={inputColor} />
+          <Text style={styles.loadingText}>축제를 불러오는 중...</Text>
+        </View>
+      ) : (
+        <HomeCarousel data={data || []} isLoading={isLoading} />
+      )}
     </View>
   );
 }
@@ -126,7 +136,16 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   searchBar: {
-    backgroundColor: "#30394A",
+    marginTop: 20,
+    borderRadius: 50,
+    elevation: 0,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
   },
   FlexRowBox: {
     marginTop: 30,
@@ -139,5 +158,15 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#eeeeee",
     marginLeft: 10,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  loadingText: {
+    marginTop: 10,
+    fontSize: 16,
+    color: "#aaaaaa",
   },
 });

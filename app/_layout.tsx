@@ -22,6 +22,9 @@ const theme = {
     bottomActiveColor: "#B59BE0",
     bottomInactiveColor: "#808A97",
     backgroundColor: "#232E3C",
+    buttonColor: "#30394A",
+    buttonActiveColor: "#9168D9",
+    inputColor: "#30394A",
   },
 };
 
