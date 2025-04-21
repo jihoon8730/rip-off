@@ -26,27 +26,27 @@ export default function TabLayout() {
         }}
       >
         <Tabs.Screen
-          name="(home)/index"
+          name="(home)"
           options={{
             title: "홈",
             tabBarIcon: ({ focused }) => (
               <Icon
                 source="home-variant-outline"
                 color={focused ? bottomActiveColor : bottomInactiveColor}
-                size={20}
+                size={25}
               />
             ),
           }}
         />
         <Tabs.Screen
-          name="(settings)/index"
+          name="(settings)"
           options={{
             title: "설정",
             tabBarIcon: ({ focused }) => (
               <Icon
                 source="cog-outline"
                 color={focused ? bottomActiveColor : bottomInactiveColor}
-                size={20}
+                size={25}
               />
             ),
           }}

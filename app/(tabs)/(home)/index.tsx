@@ -5,11 +5,11 @@ import { useAppTheme } from "@/app/_layout";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { FestivalItem } from "@/types/festival";
-import HomeCarousel from "@/app/component/home/HomeCarousel";
+import HomeCarousel from "@/app/(tabs)/(home)/component/HomeCarousel";
 import { useState } from "react";
 import Constants from "expo-constants";
 import { AreaItem } from "@/types/area";
-import AreaTags from "@/app/component/home/AreaTags";
+import AreaTags from "@/app/(tabs)/(home)/component/AreaTags";
 
 const { SERVICE_KEY_DECODING, SERVICE_KEY_ENCODING } =
   Constants.expoConfig?.extra ?? {};

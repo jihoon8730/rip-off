@@ -11,7 +11,8 @@ import Carousel from "react-native-reanimated-carousel";
 import { FestivalItem } from "@/types/festival";
 import { parse, format } from "date-fns";
 import { ko } from "date-fns/locale";
-import ImageLoader from "@/app/component/home/ImageLoader";
+import ImageLoader from "@/app/(tabs)/(home)/component/ImageLoader";
+import { Link } from "expo-router";
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
 
@@ -60,20 +61,27 @@ export default function HomeCarousel({
               {isLoading ? (
                 <ImageLoader />
               ) : (
-                <ImageBackground
-                  source={{ uri: item?.firstimage }}
-                  style={styles.renderItemView}
-                  imageStyle={styles.imageStyle}
+                <Link
+                  href={{
+                    pathname: "/details/[id]",
+                    params: { id: item?.contentid },
+                  }}
                 >
-                  <View style={styles.overlay}>
-                    <Text style={styles.title}>{item?.title}</Text>
-                    <View>
-                      <Text
-                        style={styles.date}
-                      >{`일시 : ${startFormatted} ~ ${endFormatted}`}</Text>
+                  <ImageBackground
+                    source={{ uri: item?.firstimage }}
+                    style={styles.renderItemView}
+                    imageStyle={styles.imageStyle}
+                  >
+                    <View style={styles.overlay}>
+                      <Text style={styles.title}>{item?.title}</Text>
+                      <View>
+                        <Text
+                          style={styles.date}
+                        >{`일시 : ${startFormatted} ~ ${endFormatted}`}</Text>
+                      </View>
                     </View>
-                  </View>
-                </ImageBackground>
+                  </ImageBackground>
+                </Link>
               )}
             </View>
           );
