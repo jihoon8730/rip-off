@@ -1,11 +1,6 @@
 import * as React from "react";
-import {
-  Text,
-  View,
-  Dimensions,
-  StyleSheet,
-  ImageBackground,
-} from "react-native";
+import { Text, View, Dimensions, StyleSheet } from "react-native";
+import { ImageBackground } from "expo-image";
 import { useSharedValue } from "react-native-reanimated";
 import Carousel from "react-native-reanimated-carousel";
 import { FestivalItem } from "@/types/festival";
@@ -70,10 +65,18 @@ export default function HomeCarousel({
                   <ImageBackground
                     source={{ uri: item?.firstimage }}
                     style={styles.renderItemView}
-                    imageStyle={styles.imageStyle}
+                    contentFit="cover"
+                    transition={1000}
+                    placeholder="썸네일 이미지 로딩 중..."
                   >
                     <View style={styles.overlay}>
-                      <Text style={styles.title}>{item?.title}</Text>
+                      <Text
+                        style={styles.title}
+                        numberOfLines={1} // 최대 1줄
+                        ellipsizeMode="tail"
+                      >
+                        {item?.title}
+                      </Text>
                       <View>
                         <Text
                           style={styles.date}
@@ -101,9 +104,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 30,
     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
-  },
-  imageStyle: {
-    resizeMode: "cover",
   },
   overlay: {
     padding: 16,

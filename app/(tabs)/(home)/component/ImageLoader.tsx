@@ -5,8 +5,8 @@ import ContentLoader, { Rect } from "react-content-loader/native";
 
 // HomeCarousel 과 동일하게 계산
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
-const CAROUSEL_WIDTH = SCREEN_WIDTH * 0.9;
-const CAROUSEL_HEIGHT = SCREEN_HEIGHT * 0.5;
+const CAROUSEL_WIDTH = SCREEN_WIDTH * 0.85;
+const CAROUSEL_HEIGHT = SCREEN_HEIGHT * 0.45;
 
 const ImageLoader = () => (
   <ContentLoader
@@ -14,8 +14,8 @@ const ImageLoader = () => (
     width={CAROUSEL_WIDTH}
     height={CAROUSEL_HEIGHT}
     viewBox={`0 0 ${CAROUSEL_WIDTH} ${CAROUSEL_HEIGHT}`}
-    backgroundColor="#2c2c2c" // 다크 그레이
-    foregroundColor="#3d3d3d" // 조금 더 밝은 그레이
+    backgroundColor="#eeeeee"
+    foregroundColor="#ffffff"
     style={styles.loader}
   >
     {/* 전체 이미지를 커버하는 라운디드 사각형 */}

@@ -4185,6 +4185,11 @@ expo-haptics@~14.0.1:
   resolved "https://registry.yarnpkg.com/expo-haptics/-/expo-haptics-14.0.1.tgz#ff4ead605e33f1917e615c9328af7ac1c34892dc"
   integrity sha512-V81FZ7xRUfqM6uSI6FA1KnZ+QpEKnISqafob/xEfcx1ymwhm4V3snuLWWFjmAz+XaZQTqlYa8z3QbqEXz7G63w==
 
+expo-image@^2.0.7:
+  version "2.0.7"
+  resolved "https://registry.yarnpkg.com/expo-image/-/expo-image-2.0.7.tgz#087ca651e3dcd2e92efdda11a6c9e3ad6fddc127"
+  integrity sha512-kv40OIJOkItwznhdqFmKxTMC5O8GkpyTf8ng7Py4Hy6IBiH59dkeP6vUZQhzPhJOm5v1kZK4XldbskBosqzOug==
+
 expo-keep-awake@~14.0.3:
   version "14.0.3"
   resolved "https://registry.yarnpkg.com/expo-keep-awake/-/expo-keep-awake-14.0.3.tgz#74c91b68effdb6969bc1e8371621aad90386cfbf"
@@ -6128,6 +6133,11 @@ loose-envify@^1.0.0, loose-envify@^1.1.0, loose-envify@^1.4.0:
   integrity sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==
   dependencies:
     js-tokens "^3.0.0 || ^4.0.0"
+
+lottie-react-native@7.1.0:
+  version "7.1.0"
+  resolved "https://registry.yarnpkg.com/lottie-react-native/-/lottie-react-native-7.1.0.tgz#705d1f7603b7a1b3d0cf0b4bb9a193d0dba4efa4"
+  integrity sha512-73jtQySxRZ8KTTSKf6CtcpCt8tpOCw4NRiCST4HTYgXlycxIihIp89jRcK8rS/QiBKl5bzyixMzpVmd4mYVH5Q==
 
 lru-cache@^10.0.1, lru-cache@^10.2.0:
   version "10.4.3"

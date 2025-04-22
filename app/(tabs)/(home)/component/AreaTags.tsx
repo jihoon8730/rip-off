@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { Text, View, StyleSheet, Pressable, ScrollView } from "react-native";
+import {
+  Text,
+  View,
+  StyleSheet,
+  Pressable,
+  ScrollView,
+  Platform,
+} from "react-native";
 import { AreaItem } from "@/types/area";
 import { useAppTheme } from "@/app/_layout";
 
@@ -13,7 +20,7 @@ export default function AreaTags({
   const [selectedCode, setSelectedCode] = useState<string | null>(null);
 
   const {
-    colors: { buttonColor, buttonActiveColor },
+    colors: { buttonColor, primary },
   } = useAppTheme();
 
   const handlePress = (code: string) => {
@@ -38,12 +45,21 @@ export default function AreaTags({
               style={[
                 styles.tagButtons,
                 {
-                  backgroundColor: isSelected ? buttonActiveColor : buttonColor,
+                  backgroundColor: isSelected ? primary : buttonColor,
                   borderColor: buttonColor,
                 },
               ]}
             >
-              <Text style={[styles.buttonText]}>{item.name}</Text>
+              <Text
+                style={[
+                  styles.buttonText,
+                  {
+                    color: isSelected ? "#FFFFFF" : "#000000",
+                  },
+                ]}
+              >
+                {item.name}
+              </Text>
             </Pressable>
           );
         })}
@@ -54,22 +70,35 @@ export default function AreaTags({
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 20,
+    marginTop: 15,
   },
   flexRow: {
     flexDirection: "row",
     gap: 10,
+    paddingVertical: 5,
     paddingHorizontal: 15,
   },
   tagButtons: {
     paddingHorizontal: 15,
     paddingVertical: 10,
     borderRadius: 50,
-    borderWidth: 1,
+    // 그림자 공통 속성
+    shadowColor: "#000000",
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    // 플랫폼별 속성
+    ...Platform.select({
+      ios: {
+        shadowOffset: { width: 0, height: 1 },
+      },
+      android: {
+        elevation: 2,
+        borderColor: "transparent",
+      },
+    }),
   },
   buttonText: {
     fontSize: 14,
     fontWeight: "bold",
-    color: "#eeeeee",
   },
 });

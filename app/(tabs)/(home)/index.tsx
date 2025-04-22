@@ -1,18 +1,18 @@
 import { StyleSheet, Text, View } from "react-native";
-import { ActivityIndicator, Searchbar } from "react-native-paper";
+import { Searchbar } from "react-native-paper";
 import { Controller, useForm } from "react-hook-form";
 import { useAppTheme } from "@/app/_layout";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { FestivalItem } from "@/types/festival";
 import HomeCarousel from "@/app/(tabs)/(home)/component/HomeCarousel";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Constants from "expo-constants";
 import { AreaItem } from "@/types/area";
 import AreaTags from "@/app/(tabs)/(home)/component/AreaTags";
+import LottieView from "lottie-react-native";
 
-const { SERVICE_KEY_DECODING, SERVICE_KEY_ENCODING } =
-  Constants.expoConfig?.extra ?? {};
+const { SERVICE_KEY_DECODING } = Constants.expoConfig?.extra ?? {};
 
 type FormData = {
   search: string;
@@ -20,8 +20,9 @@ type FormData = {
 
 export default function HomeScreen() {
   const {
-    colors: { backgroundColor, inputColor },
+    colors: { backgroundColor },
   } = useAppTheme();
+  const animationRef = useRef<LottieView>(null);
 
   const [search, setSearch] = useState("");
   const [areaCode, setAreaCode] = useState("");
@@ -103,14 +104,13 @@ export default function HomeScreen() {
             value={value}
             onSubmitEditing={handleSubmit(onSubmit)}
             iconColor="#909CA8"
-            style={[styles.searchBar, { backgroundColor: inputColor }]}
-            inputStyle={styles.inputStyle}
+            style={[styles.searchBar, { backgroundColor: backgroundColor }]}
             elevation={1}
           />
         )}
       />
       <View style={styles.FlexRowBox}>
-        <Text style={styles.h1Text}>축제</Text>
+        <Text style={styles.h1Text}>바가지 축제</Text>
       </View>
       <AreaTags
         areaData={areaData || []}
@@ -121,8 +121,15 @@ export default function HomeScreen() {
 
       {isLoading ? (
         <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color={inputColor} />
-          <Text style={styles.loadingText}>축제를 불러오는 중...</Text>
+          <LottieView
+            ref={animationRef}
+            source={require("../../../assets/loading-animation.json")}
+            style={styles.animation}
+            loop={true}
+            // speed={1.5}
+            // autoPlay 대신 useEffect에서 play() 호출
+            autoPlay
+          />
         </View>
       ) : (
         <HomeCarousel data={data || []} isLoading={isLoading} />
@@ -138,25 +145,15 @@ const styles = StyleSheet.create({
   searchBar: {
     marginTop: 20,
     borderRadius: 50,
-    elevation: 0,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
+    marginHorizontal: 10,
   },
   FlexRowBox: {
     marginTop: 30,
-  },
-  inputStyle: {
-    color: "#808A97",
+    paddingHorizontal: 10,
   },
   h1Text: {
     fontSize: 24,
     fontWeight: "bold",
-    color: "#eeeeee",
     marginLeft: 10,
   },
   loadingContainer: {
@@ -164,9 +161,5 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  loadingText: {
-    marginTop: 10,
-    fontSize: 16,
-    color: "#aaaaaa",
-  },
+  animation: { width: 150, height: 150 },
 });
