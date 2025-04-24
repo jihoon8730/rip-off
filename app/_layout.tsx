@@ -19,7 +19,7 @@ const theme = {
   custom: "property",
   colors: {
     ...DefaultTheme.colors,
-    primary: "#9168D9",
+    primary: "#3D70F6",
     bottomInactiveColor: "#B5B5B5",
     backgroundColor: "#FFFFFF",
     buttonColor: "#FFFFFF",

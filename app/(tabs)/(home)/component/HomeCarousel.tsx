@@ -38,7 +38,7 @@ export default function HomeCarousel({
         mode="parallax"
         modeConfig={{
           parallaxScrollingScale: 0.9,
-          parallaxScrollingOffset: 50,
+          parallaxScrollingOffset: 30,
         }}
         onProgressChange={progress}
         renderItem={({ item }: { item: FestivalItem }) => {
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
   },
   overlay: {
     padding: 16,
-    backgroundColor: "rgba(0, 0, 0, 0.7)", // 반투명 검정색
+    backgroundColor: "rgba(255, 255, 255, 0.9)", // 반투명
     position: "absolute",
     bottom: 0,
     left: 0,
@@ -115,12 +115,12 @@ const styles = StyleSheet.create({
     height: 100,
   },
   title: {
-    color: "#fff",
+    color: "#111111",
     fontSize: 20,
     fontWeight: "bold",
   },
   date: {
-    color: "#fff",
+    color: "#111111",
     fontSize: 16,
     marginTop: 4,
   },

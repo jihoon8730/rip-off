@@ -32,7 +32,6 @@ export interface ItemsWrapper {
 // body
 export interface ResponseBody {
   items: ItemsWrapper;
-  // 만약 numOfRows, pageNo, totalCount 등이 추가로 온다면 여기에 선언하세요.
   //   numOfRows: number;
   //   pageNo: number;
   //   totalCount: number;

@@ -1,6 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
-import { Searchbar } from "react-native-paper";
-import { Controller, useForm } from "react-hook-form";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import { useAppTheme } from "@/app/_layout";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
@@ -11,25 +9,26 @@ import Constants from "expo-constants";
 import { AreaItem } from "@/types/area";
 import AreaTags from "@/app/(tabs)/(home)/component/AreaTags";
 import LottieView from "lottie-react-native";
+import { LinearGradient } from "expo-linear-gradient";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Search } from "lucide-react-native";
+import { Link } from "expo-router";
+import { QUERY_KEYS } from "@/app/queryKeys";
 
 const { SERVICE_KEY_DECODING } = Constants.expoConfig?.extra ?? {};
 
-type FormData = {
-  search: string;
-};
-
 export default function HomeScreen() {
+  const insets = useSafeAreaInsets();
   const {
     colors: { backgroundColor },
   } = useAppTheme();
   const animationRef = useRef<LottieView>(null);
 
-  const [search, setSearch] = useState("");
   const [areaCode, setAreaCode] = useState("");
 
   // 축제 목록 조회
   const { data, isLoading } = useQuery({
-    queryKey: ["festival-list", areaCode, search],
+    queryKey: [QUERY_KEYS.FESTIVAL.HOME, areaCode],
     queryFn: async (): Promise<FestivalItem[]> => {
       const response = await axios.get(
         "https://apis.data.go.kr/B551011/KorService1/searchFestival1",
@@ -53,7 +52,7 @@ export default function HomeScreen() {
 
   // 지역 코드 목록 조회
   const { data: areaData } = useQuery({
-    queryKey: ["area-code-list"],
+    queryKey: [QUERY_KEYS.AREA.LIST],
     queryFn: async (): Promise<AreaItem[]> => {
       const response = await axios.get(
         "https://apis.data.go.kr/B551011/KorService1/areaCode1",
@@ -72,69 +71,56 @@ export default function HomeScreen() {
     },
   });
 
-  const { control, handleSubmit } = useForm<FormData>({
-    defaultValues: {
-      search: "",
-    },
-  });
-
-  const onSubmit = (data: FormData) => {
-    console.log("검색어:", data.search);
-    // 검색 로직 구현
-    setSearch(data.search);
-  };
-
   return (
-    <View
+    <LinearGradient
+      colors={["#5E41E1", "#3E5EEA", "#4BA2F6"]}
+      start={[0, 1]}
+      end={[1, 1]}
       style={[
         styles.innerContainer,
         {
-          backgroundColor: backgroundColor,
+          paddingTop: insets.top,
         },
       ]}
     >
-      <Controller
-        control={control}
-        name="search"
-        render={({ field: { onChange, value } }) => (
-          <Searchbar
-            placeholder="검색"
-            placeholderTextColor="#808A97"
-            onChangeText={onChange}
-            value={value}
-            onSubmitEditing={handleSubmit(onSubmit)}
-            iconColor="#909CA8"
-            style={[styles.searchBar, { backgroundColor: backgroundColor }]}
-            elevation={1}
-          />
-        )}
-      />
-      <View style={styles.FlexRowBox}>
-        <Text style={styles.h1Text}>바가지 축제</Text>
+      <View style={styles.titleContainer}>
+        <Text style={styles.title}>BGJ</Text>
       </View>
-      <AreaTags
-        areaData={areaData || []}
-        onSelect={(code) => {
-          setAreaCode(code || "");
-        }}
-      />
 
-      {isLoading ? (
-        <View style={styles.loadingContainer}>
-          <LottieView
-            ref={animationRef}
-            source={require("../../../assets/loading-animation.json")}
-            style={styles.animation}
-            loop={true}
-            // speed={1.5}
-            // autoPlay 대신 useEffect에서 play() 호출
-            autoPlay
-          />
+      <Link href="/search" asChild>
+        <Pressable style={styles.searchButton}>
+          <Search color="#eeeeee" size={16} />
+          <Text style={styles.searchText}>바가지 축제를 검색</Text>
+        </Pressable>
+      </Link>
+      <View style={[styles.mainContainer, { backgroundColor }]}>
+        <View style={styles.FlexRowBox}>
+          <Text style={styles.h1Text}>축제</Text>
         </View>
-      ) : (
-        <HomeCarousel data={data || []} isLoading={isLoading} />
-      )}
-    </View>
+        <AreaTags
+          areaData={areaData || []}
+          onSelect={(code) => {
+            setAreaCode(code || "");
+          }}
+        />
+
+        {isLoading ? (
+          <View style={styles.loadingContainer}>
+            <LottieView
+              ref={animationRef}
+              source={require("../../../assets/loading-animation.json")}
+              style={styles.animation}
+              loop={true}
+              // speed={1.5}
+              // autoPlay 대신 useEffect에서 play() 호출
+              autoPlay
+            />
+          </View>
+        ) : (
+          <HomeCarousel data={data || []} isLoading={isLoading} />
+        )}
+      </View>
+    </LinearGradient>
   );
 }
 
@@ -142,19 +128,43 @@ const styles = StyleSheet.create({
   innerContainer: {
     flex: 1,
   },
-  searchBar: {
-    marginTop: 20,
+  titleContainer: {
+    alignItems: "center",
+  },
+  title: {
+    fontSize: 25,
+    fontWeight: "bold",
+    color: "#FFFFFF",
+  },
+  mainContainer: {
+    flex: 1,
+    marginTop: 16,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+  },
+  searchButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 5,
+    marginTop: 12,
+    marginHorizontal: 24,
+    paddingVertical: 12,
+    paddingHorizontal: 15,
     borderRadius: 50,
-    marginHorizontal: 10,
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
+  },
+  searchText: {
+    fontSize: 14,
+    color: "#FFFFFF",
   },
   FlexRowBox: {
-    marginTop: 30,
+    marginTop: 28,
     paddingHorizontal: 10,
   },
   h1Text: {
     fontSize: 24,
     fontWeight: "bold",
-    marginLeft: 10,
+    marginLeft: 8,
   },
   loadingContainer: {
     flex: 1,

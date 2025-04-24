@@ -15,16 +15,16 @@ export default function AreaTags({
   onSelect,
 }: {
   areaData: AreaItem[];
-  onSelect?: (code: string | null) => void;
+  onSelect?: (code: string) => void;
 }) {
-  const [selectedCode, setSelectedCode] = useState<string | null>(null);
+  const [selectedCode, setSelectedCode] = useState<string>("");
 
   const {
     colors: { buttonColor, primary },
   } = useAppTheme();
 
   const handlePress = (code: string) => {
-    const newCode = code === selectedCode ? null : code;
+    const newCode = code === selectedCode ? "" : code;
     setSelectedCode(newCode);
     onSelect?.(newCode);
   };
@@ -36,6 +36,31 @@ export default function AreaTags({
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.flexRow}
       >
+        {/*전체*/}
+        {(() => {
+          const isSelected = selectedCode === "";
+          return (
+            <Pressable
+              onPress={() => handlePress("")}
+              style={[
+                styles.tagButtons,
+                {
+                  backgroundColor: isSelected ? primary : buttonColor,
+                  borderColor: buttonColor,
+                },
+              ]}
+            >
+              <Text
+                style={[
+                  styles.buttonText,
+                  { color: isSelected ? "#FFFFFF" : "#000000" },
+                ]}
+              >
+                전체
+              </Text>
+            </Pressable>
+          );
+        })()}
         {areaData?.map((item: AreaItem) => {
           const isSelected = selectedCode === item.code;
           return (

@@ -9,6 +9,7 @@ export default function HomeLayout() {
     >
       <Stack.Screen name="index" />
       <Stack.Screen name="details" />
+      <Stack.Screen name="search" />
     </Stack>
   );
 }
