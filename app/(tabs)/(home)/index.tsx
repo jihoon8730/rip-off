@@ -31,16 +31,15 @@ export default function HomeScreen() {
     queryKey: [QUERY_KEYS.FESTIVAL.HOME, areaCode],
     queryFn: async (): Promise<FestivalItem[]> => {
       const response = await axios.get(
-        "https://apis.data.go.kr/B551011/KorService1/searchFestival1",
+        "https://apis.data.go.kr/B551011/KorService2/searchFestival2",
         {
           params: {
             serviceKey: SERVICE_KEY_DECODING,
             MobileApp: "ripoff",
             MobileOS: "ETC",
             numOfRows: 50,
-            eventStartDate: "20240101",
+            eventStartDate: "20250101",
             areaCode: areaCode || "", // 선택된 지역코드
-            listYN: "Y",
             arrange: "R",
             _type: "json",
           },
@@ -55,7 +54,7 @@ export default function HomeScreen() {
     queryKey: [QUERY_KEYS.AREA.LIST],
     queryFn: async (): Promise<AreaItem[]> => {
       const response = await axios.get(
-        "https://apis.data.go.kr/B551011/KorService1/areaCode1",
+        "https://apis.data.go.kr/B551011/KorService2/areaCode2",
         {
           params: {
             serviceKey: SERVICE_KEY_DECODING, // 인증키
