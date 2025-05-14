@@ -15,6 +15,8 @@ export default function TabLayout() {
         tabBarStyle: {
           height: 60,
           borderTopWidth: 0,
+          // FAB.group 형식으로 변경하면서 bottom Tabs hide
+          display: "none",
         },
       }}
     >

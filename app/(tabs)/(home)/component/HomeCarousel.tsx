@@ -8,6 +8,7 @@ import { parse, format } from "date-fns";
 import { ko } from "date-fns/locale";
 import ImageLoader from "@/app/(tabs)/(home)/component/ImageLoader";
 import { Link } from "expo-router";
+import { Calendar } from "lucide-react-native";
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
 
@@ -24,7 +25,7 @@ export default function HomeCarousel({
   const progress = useSharedValue<number>(0);
 
   return (
-    <View id="carousel-component" style={{ flex: 1 }}>
+    <View id="carousel-component" style={styles.container}>
       <Carousel
         autoPlay
         autoPlayInterval={3000}
@@ -44,10 +45,10 @@ export default function HomeCarousel({
         renderItem={({ item }: { item: FestivalItem }) => {
           const startDate = parse(item?.eventstartdate, "yyyyMMdd", new Date());
           const endDate = parse(item?.eventenddate, "yyyyMMdd", new Date());
-          const startFormatted = format(startDate, "yyyy년 MM월 dd일", {
+          const startFormatted = format(startDate, "yy.MM.dd", {
             locale: ko,
           });
-          const endFormatted = format(endDate, "yyyy년 MM월 dd일", {
+          const endFormatted = format(endDate, "yy.MM.dd", {
             locale: ko,
           });
 
@@ -77,10 +78,11 @@ export default function HomeCarousel({
                       >
                         {item?.title}
                       </Text>
-                      <View>
+                      <View style={styles.dateBox}>
+                        <Calendar size={20} color={"#111111"} />
                         <Text
                           style={styles.date}
-                        >{`일시 : ${startFormatted} ~ ${endFormatted}`}</Text>
+                        >{`${startFormatted} ~ ${endFormatted}`}</Text>
                       </View>
                     </View>
                   </ImageBackground>
@@ -95,10 +97,12 @@ export default function HomeCarousel({
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   renderItemView: {
     width: CAROUSEL_WIDTH,
     height: CAROUSEL_HEIGHT,
-    flex: 1,
     justifyContent: "center",
     overflow: "hidden",
     alignItems: "center",
@@ -126,5 +130,11 @@ const styles = StyleSheet.create({
   },
   flexRow: {
     flexDirection: "row",
+  },
+  dateBox: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 8,
+    gap: 4,
   },
 });

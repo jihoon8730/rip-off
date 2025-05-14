@@ -17,13 +17,17 @@ import { QUERY_KEYS } from "@/app/queryKeys";
 
 const { SERVICE_KEY_DECODING } = Constants.expoConfig?.extra ?? {};
 
+const getCurrentDate = () => {
+  const date = new Date();
+  return date.toISOString().slice(0, 10).replace(/-/g, "");
+};
+
 export default function HomeScreen() {
   const insets = useSafeAreaInsets();
   const {
     colors: { backgroundColor },
   } = useAppTheme();
   const animationRef = useRef<LottieView>(null);
-
   const [areaCode, setAreaCode] = useState("");
 
   // 축제 목록 조회
@@ -38,7 +42,7 @@ export default function HomeScreen() {
             MobileApp: "ripoff",
             MobileOS: "ETC",
             numOfRows: 50,
-            eventStartDate: "20250101",
+            eventStartDate: getCurrentDate(),
             areaCode: areaCode || "", // 선택된 지역코드
             arrange: "R",
             _type: "json",
@@ -82,10 +86,6 @@ export default function HomeScreen() {
         },
       ]}
     >
-      <View style={styles.titleContainer}>
-        <Text style={styles.title}>BGJ</Text>
-      </View>
-
       <Link href="/search" asChild>
         <Pressable style={styles.searchButton}>
           <Search color="#eeeeee" size={16} />
@@ -170,5 +170,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  animation: { width: 150, height: 150 },
+
+  animation: { width: 150, height: 150, marginTop: -80 },
 });
