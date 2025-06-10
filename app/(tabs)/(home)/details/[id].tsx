@@ -1,6 +1,6 @@
-import { useLocalSearchParams } from "expo-router";
-import { View, Text, StyleSheet, Image, Pressable } from "react-native";
+import { ScrollView, View, Text, StyleSheet, Image, Pressable } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import { useLocalSearchParams } from "expo-router";
 import { useAppTheme } from "@/app/_layout";
 import { useQuery } from "@tanstack/react-query";
 import { QUERY_KEYS } from "@/app/queryKeys";
@@ -10,6 +10,7 @@ import { FestivalCommonItem, FestivalIntroItem } from "@/types/festival";
 import { Calendar, Clock3 } from "lucide-react-native";
 import LottieView from "lottie-react-native";
 import { useRef, useState } from "react";
+import PlaceAddr from "@/app/(tabs)/(home)/details/components/PlaceAddr";
 
 const { SERVICE_KEY_DECODING } = Constants.expoConfig?.extra ?? {};
 
@@ -28,13 +29,13 @@ export default function DetailsScreen() {
         "https://apis.data.go.kr/B551011/KorService2/detailCommon2",
         {
           params: {
-            serviceKey: SERVICE_KEY_DECODING, // 인증키
+            serviceKey: SERVICE_KEY_DECODING,
             contentId: id,
             MobileApp: "ripoff",
             MobileOS: "ETC",
-            _type: "json", // 응답 포맷
+            _type: "json",
           },
-        },
+        }
       );
       return response.data.response.body.items.item[0];
     },
@@ -47,24 +48,25 @@ export default function DetailsScreen() {
         "https://apis.data.go.kr/B551011/KorService2/detailIntro2",
         {
           params: {
-            serviceKey: SERVICE_KEY_DECODING, // 인증키
+            serviceKey: SERVICE_KEY_DECODING,
             contentId: id,
             contentTypeId: "15",
             MobileApp: "ripoff",
             MobileOS: "ETC",
-            _type: "json", // 응답 포맷
+            _type: "json",
           },
-        },
+        }
       );
       return response.data.response.body.items.item[0];
     },
   });
 
-  // console.log("commonData", commonData);
-  console.log("introData", introData);
-
   return (
-    <View style={[styles.container, { backgroundColor }]}>
+    <ScrollView
+      style={[styles.container, { backgroundColor }]}
+      contentContainerStyle={{ paddingBottom: 16 }}
+      showsVerticalScrollIndicator={false}
+    >
       <View style={styles.imageContainer}>
         {commonLoading && introLoading ? (
           <View style={styles.loadingContainer}>
@@ -72,9 +74,7 @@ export default function DetailsScreen() {
               ref={animationRef}
               source={require("../../../../assets/loading-animation.json")}
               style={styles.animation}
-              loop={true}
-              // speed={1.5}
-              // autoPlay 대신 useEffect에서 play() 호출
+              loop
               autoPlay
             />
           </View>
@@ -83,9 +83,7 @@ export default function DetailsScreen() {
             <>
               <Image
                 source={{
-                  uri: commonData.firstimage
-                    ? commonData.firstimage
-                    : commonData.firstimage2,
+                  uri: commonData.firstimage ?? commonData.firstimage2,
                 }}
                 style={styles.image}
                 resizeMode="cover"
@@ -106,10 +104,10 @@ export default function DetailsScreen() {
                     <Text style={styles.dateText}>
                       {introData?.eventstartdate
                         ? `${introData.eventstartdate
-                            .replace(/(\d{4})(\d{2})(\d{2})/, "$1.$2.$3")
-                            .slice(2)} - ${introData.eventenddate
-                            .replace(/(\d{4})(\d{2})(\d{2})/, "$1.$2.$3")
-                            .slice(2)}`
+                          .replace(/(\d{4})(\d{2})(\d{2})/, "$1.$2.$3")
+                          .slice(2)} - ${introData.eventenddate
+                          .replace(/(\d{4})(\d{2})(\d{2})/, "$1.$2.$3")
+                          .slice(2)}`
                         : ""}
                     </Text>
                   </View>
@@ -121,7 +119,9 @@ export default function DetailsScreen() {
                     />
                     <Text style={styles.dateText}>
                       {introData?.playtime
-                        ? `${introData.playtime.split("(")[0].replace(/(\d{2})(\d{2})/, "$1:$2")}`
+                        ? introData.playtime
+                          .split("(")[0]
+                          .replace(/(\d{2})(\d{2})/, "$1:$2")
                         : ""}
                     </Text>
                   </View>
@@ -131,33 +131,29 @@ export default function DetailsScreen() {
           )
         )}
       </View>
+
       <View style={styles.contentContainer}>
         <View style={styles.descriptionBox}>
           <Text
             numberOfLines={isExpanded ? undefined : 2}
-            style={{
-              fontSize: 14,
-              lineHeight: 20,
-            }}
+            style={styles.overviewText}
           >
-            {commonData?.overview}
+            {commonData?.overview.trim()}
           </Text>
-          {commonData?.overview && commonData.overview.length > 0 && (
+          {Number(commonData?.overview?.length) > 0 && (
             <Pressable onPress={() => setIsExpanded(!isExpanded)}>
-              <Text
-                style={{
-                  color: "#5E41E1",
-                  marginTop: 8,
-                  fontWeight: "600",
-                }}
-              >
+              <Text style={styles.toggleText}>
                 {isExpanded ? "접기" : "더보기"}
               </Text>
             </Pressable>
           )}
         </View>
+
+        <PlaceAddr
+          addr={commonData?.addr1 ?? "주소 정보가 없습니다."}
+        />
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
@@ -171,9 +167,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   imageContainer: {
-    top: 0,
-    left: 0,
-    right: 0,
+    width: "100%",
     height: 450,
   },
   image: {
@@ -211,15 +205,28 @@ const styles = StyleSheet.create({
     marginTop: 8,
     marginLeft: 16,
   },
-  animation: { width: 150, height: 150 },
+  animation: {
+    width: 150,
+    height: 150,
+  },
   dateText: {
     color: "#FFFFFF",
     fontSize: 16,
   },
   contentContainer: {
-    flex: 1,
     paddingHorizontal: 16,
-    paddingVertical: 16,
+    paddingTop: 16,
   },
-  descriptionBox: {},
+  descriptionBox: {
+    marginBottom: 16,
+  },
+  overviewText: {
+    fontSize: 14,
+    lineHeight: 20,
+  },
+  toggleText: {
+    color: "#5E41E1",
+    marginTop: 8,
+    fontWeight: "600",
+  },
 });

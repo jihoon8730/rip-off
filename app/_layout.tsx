@@ -13,7 +13,7 @@ import {
 import { Stack } from "expo-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useReactQueryDevTools } from "@dev-plugins/react-query";
-import { Home, Plus, Settings } from "lucide-react-native";
+import { Home, Plus, X, Settings } from "lucide-react-native";
 import { useRouter } from "expo-router";
 
 SplashScreen.preventAutoHideAsync();
@@ -68,20 +68,28 @@ export default function RootLayout() {
             visible
             icon={
               open
-                ? (props) => <Settings {...props} />
+                ? (props) => <X {...props} />
                 : (props) => <Plus {...props} />
             }
             color="#3D70F6"
+            fabStyle={{
+              backgroundColor: "#FFFFFF",
+            }}
+            backdropColor="rgba(0, 0, 0, 0.5)"
             actions={[
               {
-                icon: (props) => <Home {...props} />,
+                icon: (props) => <Home {...props} color="#3D70F6" />,
                 label: "홈",
                 onPress: () => router.push("/(tabs)/(home)"),
+                style: { backgroundColor: "#FFFFFF" },
+                labelStyle: { color: "#FFFFFF" },
               },
               {
-                icon: (props) => <Settings {...props} />,
+                icon: (props) => <Settings {...props} color="#3D70F6" />,
                 label: "설정",
                 onPress: () => router.push("/(tabs)/(settings)"),
+                style: { backgroundColor: "#FFFFFF" },
+                labelStyle: { color: "#FFFFFF" },
               },
             ]}
             onStateChange={onStateChange}
