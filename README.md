@@ -1,3 +1,6 @@
+# Stats
+![Alt](https://repobeats.axiom.co/api/embed/72bacae6d1f4a0bafd859686f292d6093ec50064.svg "Repobeats analytics image")
+
 # Welcome to your Expo app 👋
 
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
