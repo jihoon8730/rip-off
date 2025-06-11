@@ -14,6 +14,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Search } from "lucide-react-native";
 import { Link } from "expo-router";
 import { QUERY_KEYS } from "@/app/queryKeys";
+import PlaceAddr from '@/app/(tabs)/(home)/details/components/PlaceAddr';
 
 const { SERVICE_KEY_DECODING } = Constants.expoConfig?.extra ?? {};
 
@@ -57,6 +58,7 @@ export default function HomeScreen() {
   const { data: areaData } = useQuery({
     queryKey: [QUERY_KEYS.AREA.LIST],
     queryFn: async (): Promise<AreaItem[]> => {
+      console.log("Fetching area codes...");
       const response = await axios.get(
         "https://apis.data.go.kr/B551011/KorService2/areaCode2",
         {
